@@ -23,15 +23,23 @@ int main(int argc, char *argv[])
   Board b(size,initMoves,seed);
 
   //**** Implement the gameplay here
-  	int input;
+  int input;
     
-    while(!b.solved()) {
+  while(!b.solved()) {
+    map<int, Board*> moves = b.potentialMoves();
+  	map<int, Board*>::iterator it;
 	  cout << b << endl;
   	cout << "Enter tile number to move or -1 for a cheat: ";
   	cin >> input;
   	
-  	b.move(input);
- 		cout << endl;
+  	it = moves.find(input);
+  	
+  	if(it != moves.end()) {
+			b.move(input);
+	 		cout << endl;
+	 	}
+	 	else
+	 		cout << "INVALID TILE" << endl << endl;
 	}
 		
 	cout << b << endl;
