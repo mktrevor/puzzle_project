@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     cerr << "Usage: ./puzzle size initMoves seed" << endl;
     return 1;
   }
-
+  
   int size, initMoves, seed;
 
   size = atoi(argv[1]);
@@ -23,12 +23,19 @@ int main(int argc, char *argv[])
   Board b(size,initMoves,seed);
 
   //**** Implement the gameplay here
-
-
-
-
-
-
+  	int input;
+    
+    while(!b.solved()) {
+	  cout << b << endl;
+  	cout << "Enter tile number to move or -1 for a cheat: ";
+  	cin >> input;
+  	
+  	b.move(input);
+ 		cout << endl;
+	}
+		
+	cout << b << endl;
+	cout << "YOU WIN!" << endl;
 
   return 0;
 }
