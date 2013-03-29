@@ -97,7 +97,7 @@ Board::Board(const Board &b)
 Board::Board(int *tiles, int size) 
 {
 	 size_ = size;
-	 tiles_ = new int[4];
+	 tiles_ = new int[size_];
 	 for(int i = 0; i < size_; i++) {
 	 	tiles_[i] = tiles[i];
 	 }

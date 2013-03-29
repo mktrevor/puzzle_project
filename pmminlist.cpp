@@ -24,9 +24,14 @@ PMMinList::~PMMinList()
  * @return nothing
  */
 void PMMinList::push(PuzzleMove* pm)
-{
-  std::list<PuzzleMove*>::iterator it = slist_.begin();
- 
+{  
+	std::list<PuzzleMove*>::iterator it = slist_.begin();
+	
+	if(slist_.begin() == slist_.end()) {
+		slist_.insert(it, pm);
+		return;
+	}
+	
   //---- Add your implementation to iterate through the list
   //---- to find the correct location to insert pm and then
   //---- use the insert() method of std::List to insert it
@@ -40,9 +45,7 @@ void PMMinList::push(PuzzleMove* pm)
 }
 
 /**
- * Adds the value val to the internal list in sorted
- * order from smallest to largest
- * @param val Value to add to the sorted PuzzleMove list
+ * Removes the top (minimum) item
  * @return nothing
  */
 void PMMinList::pop()
@@ -51,10 +54,8 @@ void PMMinList::pop()
 }
 
 /**
- * Adds the value val to the internal list in sorted
- * order from smallest to largest
- * @param val Value to add to the sorted PuzzleMove list
- * @return reference to the minimum-scored PuzzleMove*
+ * Returns the top (minimum) item
+ * @return pointer to the minimum-scored PuzzleMove
  */
 PuzzleMove* PMMinList::top()
 {
