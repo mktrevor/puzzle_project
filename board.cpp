@@ -7,7 +7,6 @@
 #include "board.h"
 using namespace std;
 
-
 /** Init a board of given size and scramble it with numInitMoves 
  * by moving the space tile with a randomly chosen direction N, W, S, E
  * some of which may be invalid, in which case we skip that move 
@@ -66,13 +65,8 @@ Board::Board(int size, int numInitMoves, int seed )
 /** Default constructor. provide documentation here */
 Board::Board()
 {
-  size_ = 4;
-  tiles_ = new int[4];
-  
-  tiles_[0] = 1;
-  tiles_[1] = 0;
-  tiles_[2] = 2;
-  tiles_[3] = 3;
+  size_ = 0;
+  tiles_ = NULL;
 }
 
 /** Default destructor. provide documentation here */
@@ -139,6 +133,16 @@ bool Board::operator!=(const Board& rhs) const
 }
 		
 
+Board& Board::operator=(const Board& rhs)
+{
+	size_ = rhs.size_;
+	tiles_ = new int[size_];
+	for(int i = 0; i < size_; i++) {
+		tiles_[i] = rhs.tiles_[i];
+	}
+	return *this;
+}
+
 /** Swaps the blank with the specified tile */
 void Board::move(int tile) {
 	for(int i = 0; i < size_; i++) {
@@ -171,26 +175,30 @@ map<int, Board*> Board::potentialMoves() {
 	}
 	
 	if(blankLoc % dim != 0) {
+		int tile = tiles_[blankLoc-1];
 		Board* newBoard1 = new Board(*this);
-		newBoard1->move(tiles_[blankLoc-1]);
-		moves[this->tiles_[blankLoc-1]] = newBoard1;
+		newBoard1->move(tile);
+		moves[tile] = newBoard1;
 	}
 	
 	if(blankLoc % dim != (dim - 1)) {
+		int tile = tiles_[blankLoc+1];
 		Board* newBoard2 = new Board(*this);
-		newBoard2->move(tiles_[blankLoc+1]);
-		moves[this->tiles_[blankLoc+1]] = newBoard2;
+		newBoard2->move(tile);
+		moves[tile] = newBoard2;
 	}
 	
 	if(blankLoc >= dim) {
+		int tile = tiles_[blankLoc-dim];
 		Board* newBoard3 = new Board(*this);
-		newBoard3->move(tiles_[blankLoc-dim]);
-		moves[this->tiles_[blankLoc-dim]] = newBoard3;
+		newBoard3->move(tile);
+		moves[tile] = newBoard3;
 	}
 	if(blankLoc < (dim * (dim - 1))) {
+		int tile = tiles_[blankLoc+dim];
 		Board* newBoard4 = new Board(*this);
-		newBoard4->move(tiles_[blankLoc+dim]);
-		moves[this->tiles_[blankLoc+dim]] = newBoard4;
+		newBoard4->move(tile);
+		moves[tile] = newBoard4;
 	}
 	return moves;
 }
@@ -215,12 +223,16 @@ int Board::getSize() {
 
 std::ostream& operator<<(std::ostream &os, const Board &b) {
 	int dim = static_cast<int>(sqrt(b.size_)); // Dimension of board
+	int width = 2;
+	if(dim > 3) {
+		width = 3;
+	}
 
 	for(int i = 0; i < b.size_; i++) {
 		if(b.tiles_[i] != 0) {
-			os << setw(2) << b.tiles_[i];
+			os << setw(width) << b.tiles_[i];
 		} 
-		else { cout << setw(2) << " "; }
+		else { cout << setw(width) << " "; }
 		
 		if((i + 1) % dim == 0) {
 			os << endl;

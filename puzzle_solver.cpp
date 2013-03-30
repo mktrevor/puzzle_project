@@ -34,10 +34,9 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 	while(!openList.empty()) {
 	
 		myMove = openList.top();
-		openList.pop();
 		garbageList.push_back(myMove);
-	
-		
+		openList.pop();
+			
 		if(myMove->b_->solved()) {
 			PuzzleMove *temp = myMove;
 			while(temp->prev_ != NULL) {
@@ -60,6 +59,10 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 			if(closedList.find(it->second) == closedList.end()) {
 				potentialMove = new PuzzleMove(it->first, it->second, myMove);
 				potentialMove->h_ = ph->compute(potentialMove->b_->getTiles(), potentialMove->b_->getSize());
+				
+				closedList.insert(potentialMove->b_);
+				openList.push(potentialMove);
+				expansions_++;
 			}
 		}
 		

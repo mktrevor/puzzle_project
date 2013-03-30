@@ -40,6 +40,7 @@ class Board
   bool operator==(const Board& rhs) const;
   bool operator<(const Board& rhs) const;
   bool operator!=(const Board& rhs) const;
+  Board& operator=(const Board& rhs);
   
   // Accessors
   int* getTiles();

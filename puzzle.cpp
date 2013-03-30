@@ -35,8 +35,6 @@ int main(int argc, char *argv[])
   ManhattanHeuristic *mh = new ManhattanHeuristic;
     
   while(!b.solved()) {
-  cout << "a" << endl << b << endl;
-  	moves = b.potentialMoves();
 
 	  cout << b << endl;
   	cout << "Enter tile number to move or -1 for a cheat: ";
@@ -48,36 +46,34 @@ int main(int argc, char *argv[])
   		cout << "INVALID INPUT" << endl << endl;
   		continue;
   	}
-  	cout << "b" << endl << b << endl;
   	
   	if(input < -1 || input == 0) {
   		cout << "INVALID INPUT" << endl << endl;
   		continue;
   	}
-  	cout << "c" << endl << b << endl;
   	
   	if(input == -1) {
-  	cout << "d" << endl << b << endl;
-  		Board* tempBoard = new Board(b);
-  		PuzzleSolver solver(*tempBoard);
-  		cout << "f" << endl << b << endl;
-  		solver.run(mh);
-  		cout << "g" << endl << b << endl;
-  		delete tempBoard;
+  		PuzzleSolver *solver = new PuzzleSolver(b);
+  		solver->run(mh);
+  		cout << "Expansions: " << solver->getNumExpansions() << endl;
+  		delete solver;
   		continue;
   	}
   	
+  	moves = b.potentialMoves();
   	it = moves.find(input);
   	
   	if(it != moves.end()) {
 			b.move(input);
 	 		cout << endl;
 	 	}
-	 	else
+	 	else {
 	 		cout << "INVALID TILE" << endl << endl;
-	 	
-	 	
-	 	cout << "i" << endl << b << endl;
+		}
+		
+		for(it = moves.begin(); it != moves.end(); ++it) {
+			delete it->second;
+		}
 	}
 		
 	cout << b << endl;
