@@ -2,7 +2,6 @@
 #include <map>
 #include <set>
 #include <algorithm>
-#include <vector>
 #include "puzzle_solver.h"
 #include "pmminlist.h"
 
@@ -10,6 +9,7 @@ using namespace std;
 
 PuzzleSolver::PuzzleSolver(const Board &b) {
 	b_ = b;
+	expansions_ = 0;
 }
 
 PuzzleSolver::~PuzzleSolver() { }
@@ -18,19 +18,25 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 
 	PMMinList openList;
 	BoardSet closedList;
-	vector<PuzzleMove*> garbage;
+	vector<PuzzleMove*> garbageList;
 	MyList<int> solution;
+	PuzzleMove *myMove;
+	PuzzleMove *potentialMove;
+	map<int, Board*> moves;
+	map<int, Board*>::iterator it;
 	
-	PuzzleMove* firstMove = new PuzzleMove(b_);
-	firstMove->h_ = ph->compute(firstMove->b_->getTiles(), firstMove->b_->getSize());
-	openList.push(firstMove);
-	closedList.insert(firstMove->b_);
+	PuzzleMove *initialState = new PuzzleMove(b_);
+	initialState->h_ = ph->compute(initialState->b_->getTiles(), initialState->b_->getSize());
+	openList.push(initialState);
+	closedList.insert(initialState->b_);
+	
 	
 	while(!openList.empty()) {
 	
-		PuzzleMove *myMove = openList.top();
-		garbage.push_back(myMove);
+		myMove = openList.top();
 		openList.pop();
+		garbageList.push_back(myMove);
+	
 		
 		if(myMove->b_->solved()) {
 			PuzzleMove *temp = myMove;
@@ -47,29 +53,27 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 			
 			break;
 		}
-		map<int, Board*> moves = myMove->b_->potentialMoves();
-		map<int, Board*>::iterator it = moves.begin();
+		
+		moves = myMove->b_->potentialMoves();
 		
 		for(it = moves.begin(); it != moves.end(); ++it) {
-			
 			if(closedList.find(it->second) == closedList.end()) {
-				int tileMove = it->first;
-			
-				PuzzleMove *nextMove = new PuzzleMove(tileMove, it->second, myMove);
-				nextMove->h_ = ph->compute(it->second->getTiles(), it->second->getSize());
-				nextMove->prev_ = myMove;
-				closedList.insert(nextMove->b_);
-				openList.push(nextMove);
-				expansions_++;
+				potentialMove = new PuzzleMove(it->first, it->second, myMove);
+				potentialMove->h_ = ph->compute(potentialMove->b_->getTiles(), potentialMove->b_->getSize());
 			}
 		}
+		
+		for(it = moves.begin(); it != moves.end(); ++it) {
+			delete it->second;
+		}
+		//break;		
+	}
+		
+	for(unsigned int i = 0; i < garbageList.size(); i++) {
+		delete garbageList[i];
 	}
 	
-	for(unsigned int i = 0; i < garbage.size(); i++) {
-		delete garbage[i];
-	}
-	
-	return solution.size();
+	return 0;
 }
 
 int PuzzleSolver::getNumExpansions()
