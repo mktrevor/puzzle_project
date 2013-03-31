@@ -2,7 +2,7 @@
 
 PuzzleMove::PuzzleMove(Board &b) {
 	tileMove_ = 0;
-	b_ = new Board(b);
+	b_ = &b;
 	g_ = 0;
 	// h_ will be set later by PuzzleHeuristic object
 	h_ = 0;
@@ -11,16 +11,14 @@ PuzzleMove::PuzzleMove(Board &b) {
 
 PuzzleMove::PuzzleMove(int tile, Board *b, PuzzleMove *parent) {
 	tileMove_ = tile;
-	b_ = new Board(*b);
+	b_ = b;
 	g_ = parent->g_ + 1;
 	// h_ will be set later by PuzzleHeuristic object
 	h_ = 0;
 	prev_ = parent;
 }
 
-PuzzleMove::~PuzzleMove() {
-	delete b_;
-}
+PuzzleMove::~PuzzleMove() { }
 
 // Compare to PuzzleMoves based on f distance (needed for priority queue)
 bool PuzzleMove::operator<(const PuzzleMove& p) const

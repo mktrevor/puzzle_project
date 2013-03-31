@@ -24,7 +24,6 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 	PuzzleMove *potentialMove;
 	map<int, Board*> moves;
 	map<int, Board*>::iterator it;
-	BoardSet::iterator it2;
 	
 	PuzzleMove *initialState = new PuzzleMove(b_);
 	initialState->h_ = ph->compute(initialState->b_->getTiles(), initialState->b_->getSize());
@@ -65,17 +64,16 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 				openList.push(potentialMove);
 				expansions_++;
 			}
+			else {delete it->second;}
 		}
-		
-		for(it = moves.begin(); it != moves.end(); ++it) {
-			delete it->second;
-		}	
 	}
 	
 	while(!openList.empty()) {
 		delete openList.top();
 		openList.pop();
 	}
+	
+
 		
 	for(unsigned int i = 0; i < garbageList.size(); i++) {
 		delete garbageList[i];
