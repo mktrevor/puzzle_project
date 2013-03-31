@@ -1,3 +1,7 @@
+/** Two heuristic classes to compare puzzle boards to each other and find optimal moves.
+
+	@author Trevor Reed
+*/
 #ifndef PUZZLE_HEUR_H
 #define PUZZLE_HEUR_H
 

@@ -27,16 +27,13 @@ void PMMinList::push(PuzzleMove* pm)
 {  
 	std::list<PuzzleMove*>::iterator it;
 	
+	//If the list is empty, simply insert the new move
 	if(slist_.empty()) {
 		slist_.push_back(pm);
 		return;
 	}
 	
-  //---- Add your implementation to iterate through the list
-  //---- to find the correct location to insert pm and then
-  //---- use the insert() method of std::List to insert it
-  //---- See http://www.cplusplus.com/reference/list/list/insert/
-
+	//Otherwise, insert the move before the first move that is bigger than it, or at the end of the list if it's bigger than all other moves
 	for(it = slist_.begin(); it != slist_.end(); ++it) {
 		if(*(*it) > *pm) {
 			break;

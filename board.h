@@ -1,3 +1,7 @@
+/** A class to create sliding puzzle boards. The boards can have their tiles moved, be compared to other boards, and find all potential valid moves to be made.
+
+	@author Trevor Reed
+*/
 #ifndef BOARD_H
 #define BOARD_H
 
@@ -45,14 +49,12 @@ class Board
   // Accessors
   int* getTiles();
   int getSize();
-  // Add any accessors
-
 
  private:
+ 	/** Pointer to array which holds the board's tiles */ 
   int *tiles_;
+  /** Size of the board */
   int size_;
-  // Add Data members
-
 };
 
 // Leave this alone and don't touch it!

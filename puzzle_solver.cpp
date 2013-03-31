@@ -7,19 +7,29 @@
 
 using namespace std;
 
+/** Constructor
+	@param A puzzle board
+*/
 PuzzleSolver::PuzzleSolver(const Board &b) {
 	b_ = b;
 	expansions_ = 0;
 }
 
+/** Destructor */
 PuzzleSolver::~PuzzleSolver() { }
 
+/** A method to find the optimal solution for a puzzle board.
+	@pre Board is unsolved
+	@post List of moves which will solve the puzzle the fastest is printed out
+	@param Pointer to a certain puzzle heuristic
+	@return Minimum number of moves required to solve the puzzle
+*/
 int PuzzleSolver::run(PuzzleHeuristic *ph) {
 
+	//Initialization of lists to hold moves and moves themselves
 	PMMinList openList;
 	BoardSet closedList;
 	vector<PuzzleMove*> garbageList;
-	MyList<int> solution;
 	PuzzleMove *myMove;
 	PuzzleMove *potentialMove;
 	map<int, Board*> moves;
@@ -30,13 +40,14 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 	openList.push(initialState);
 	closedList.insert(initialState->b_);
 
-
+	//Implementation of A* search algorithm
 	while(!openList.empty()) {
 
 		myMove = openList.top();
 		openList.pop();
 		garbageList.push_back(myMove);	
 
+		//If the puzzle is solved, print out the solution
 		if(myMove->b_->solved()) {
 			PuzzleMove *temp = myMove;
 			while(temp->prev_ != NULL) {
@@ -64,15 +75,18 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 				openList.push(potentialMove);
 				expansions_++;
 			}
+			//If the board isn't needed, deallocate it
 			else {delete it->second;}
 		}
 	}
 
+	//Deallocating any puzzle moves left in the open list
 	while(!openList.empty()) {
 		delete openList.top();
 		openList.pop();
 	}
 
+	//Deallocating any boards left in the closed list
 	BoardSet::iterator it2;
 	for(it2 = closedList.begin(); it2 != closedList.end(); ++it2) {
 		if((*it2) != &b_) {
@@ -80,6 +94,7 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 		}
 	}
 
+	//Deallocating all of the puzzle moves in the garbage list
 	for(unsigned int i = 0; i < garbageList.size(); i++) {
 		delete garbageList[i];
 	}
@@ -87,6 +102,7 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 	return 0;
 }
 
+/** Returns the number of expansions that were searched to find the fastest solution */
 int PuzzleSolver::getNumExpansions()
 {
   return expansions_;

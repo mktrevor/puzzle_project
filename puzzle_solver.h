@@ -1,3 +1,7 @@
+/** A class that finds the optimal solution for a puzzle by comparing potential moves depending on a certain heuristic.
+
+	@author Trevor Reed
+*/
 #ifndef PUZZLESOLVER_H
 #define PUZZLESOLVER_H
 #include <queue>
@@ -34,9 +38,12 @@ class PuzzleSolver
   int getNumExpansions();
 
  private:
+ 	///The board that is going to be solved
   Board b_;
+  ///Number of expansions needed to find optimal solution
   int expansions_;
-  //**** Declare a List to store your solutions sequence of tiles to move
+  ///List to store sequence of solution tiles
+  MyList<int> solution;
 };
 
 #endif

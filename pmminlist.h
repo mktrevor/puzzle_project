@@ -1,3 +1,7 @@
+/** A priority queue to hold puzzle moves. They are automatically inserted in ascending order.
+
+	@author Trevor Reed
+*/
 #ifndef PMMINLIST_H
 #define PMMINLIST_H
 #include <list>

@@ -1,3 +1,7 @@
+/** A class to hold puzzle moves so that they can be compared to each other in order to solve puzzles in the optimal way
+
+	@author Trevor Reed
+*/
 #ifndef PUZZLEMOVE_H
 #define PUZZLEMOVE_H
 #include <functional>
@@ -30,11 +34,16 @@ class PuzzleMove
 
   // Data members can be public
  public:
-  int tileMove_;  // tile moved to reach the Board b
-  Board *b_;      // Pointer to a board representing the updated state
-  int g_;         // distance from the start board
-  int h_;         // heuristic distance to the goal
-  PuzzleMove *prev_;  // Pointer to parent PuzzleMove
+ 	///Tile moved to reach the Board b
+  int tileMove_;  
+  ///Pointer to a board representing the updated state
+  Board *b_;   
+  ///Distance from the start board
+  int g_;         
+  ///Heuristic distance to the goal
+  int h_;       
+  ///Pointer to parent PuzzleMove
+  PuzzleMove *prev_; 
 };
 
 

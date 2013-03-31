@@ -62,14 +62,14 @@ Board::Board(int size, int numInitMoves, int seed )
 }
 
 
-/** Default constructor. provide documentation here */
+/** Default constructor. Sets size to 0 and makes tiles_ a NULL pointer */
 Board::Board()
 {
   size_ = 0;
   tiles_ = NULL;
 }
 
-/** Default destructor. provide documentation here */
+/** Default destructor. Deallocates the array which holds the values of the Board's tiles */
 Board::~Board()
 {
   
@@ -97,6 +97,8 @@ Board::Board(int *tiles, int size)
 	 }
 }
 
+/** < operator overloader to compare the tiles of two Boards
+*/
 bool Board::operator<(const Board& rhs) const
 {
   if(size_ < rhs.size_){
@@ -117,6 +119,7 @@ bool Board::operator<(const Board& rhs) const
   return val;
 }
 
+/** Checks if two boards are equal */
 bool Board::operator==(const Board& rhs) const
 {
 	for(int i = 0; i < size_; i++) {
@@ -126,13 +129,13 @@ bool Board::operator==(const Board& rhs) const
 	}
 	return 1;
 }
-
+/** Checks if two boards are not equal */
 bool Board::operator!=(const Board& rhs) const
 {
 	return !(*this == rhs);
 }
 		
-
+/** Assignment operator overloader. Just like the copy constructor */
 Board& Board::operator=(const Board& rhs)
 {
 	size_ = rhs.size_;
@@ -174,6 +177,7 @@ map<int, Board*> Board::potentialMoves() {
 		}
 	}
 	
+	//If the blank tile is not on the left side, the tile to the left can be moved
 	if(blankLoc % dim != 0) {
 		int tile = tiles_[blankLoc-1];
 		Board* newBoard1 = new Board(*this);
@@ -181,6 +185,7 @@ map<int, Board*> Board::potentialMoves() {
 		moves[tile] = newBoard1;
 	}
 	
+	//If the blank tile is not on the right side, the tile to the right can be moved
 	if(blankLoc % dim != (dim - 1)) {
 		int tile = tiles_[blankLoc+1];
 		Board* newBoard2 = new Board(*this);
@@ -188,12 +193,15 @@ map<int, Board*> Board::potentialMoves() {
 		moves[tile] = newBoard2;
 	}
 	
+	//If the blank tile is not in the top row, the tile above can be moved
 	if(blankLoc >= dim) {
 		int tile = tiles_[blankLoc-dim];
 		Board* newBoard3 = new Board(*this);
 		newBoard3->move(tile);
 		moves[tile] = newBoard3;
 	}
+	
+	//If the blank tile is not in the bottom row, the tile below can be moved
 	if(blankLoc < (dim * (dim - 1))) {
 		int tile = tiles_[blankLoc+dim];
 		Board* newBoard4 = new Board(*this);
@@ -213,14 +221,17 @@ bool Board::solved() {
 	return 1;
 }
 
+/** Returns pointer to the list of tiles */
 int* Board::getTiles() {
 	return tiles_;
 }
 
+/** Returns the size of the board */
 int Board::getSize() {
 	return size_;
 }
 
+/** << operator overloader to easily print puzzle boards */
 std::ostream& operator<<(std::ostream &os, const Board &b) {
 	int dim = static_cast<int>(sqrt(b.size_)); // Dimension of board
 	int width = 2;

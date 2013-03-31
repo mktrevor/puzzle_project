@@ -1,3 +1,13 @@
+/** @mainpage CSCI 102 PA 3
+	@section purpose Purpose/Overview
+		This is a program which emulates a sliding tile puzzle. It must follow all of the logic behind a sliding tile puzzle. Also, it must be able to find a solution for
+		a certain puzzle if the user chooses to "cheat".
+	@section requirements Requirements
+		This program requires multiples classes to store puzzle boards, puzzle moves, a priority queue, heuristic methods, and a puzzle solving class.
+		It must be able to take user input as command line arguments to create a board, as well as input for moving the puzzle's tiles. Also, it must 
+		find the optimal solution for the puzzle when the user requests it.
+*/
+
 #include <iostream>
 #include <cstdlib>
 #include <deque>
@@ -24,14 +34,17 @@ int main(int argc, char *argv[])
   size = atoi(argv[1]);
   initMoves = atoi(argv[2]);
   seed = atoi(argv[3]);
-
+  
+	//Instantiating the puzzle board
   Board b(size,initMoves,seed);
   
   map<int, Board*> moves;
 	map<int, Board*>::iterator it;
 
-  //**** Implement the gameplay here
+	//User input for the tile to be moved
   int input;
+  
+  //Manhattan Heuristic object for the puzzle solver
   ManhattanHeuristic *mh = new ManhattanHeuristic;
     
   while(!b.solved()) {
@@ -40,6 +53,7 @@ int main(int argc, char *argv[])
   	cout << "Enter tile number to move or -1 for a cheat: ";
   	cin >> input;
   	
+  	//Making sure the user input is valid
   	if(cin.fail()) {
   		cin.clear();
   		cin.ignore(1000, '\n');
@@ -47,6 +61,7 @@ int main(int argc, char *argv[])
   		continue;
   	}
   	
+  	//If the user inputs -1, the puzzle solver runs on the current puzzle
   	if(input == -1) {
   		PuzzleSolver *solver = new PuzzleSolver(b);
   		cout << endl;
@@ -56,6 +71,7 @@ int main(int argc, char *argv[])
   		continue;
   	}
   	
+  	//The user can only move tiles which are in the potentialMoves map for the current board
   	moves = b.potentialMoves();
   	it = moves.find(input);
   	
@@ -67,14 +83,17 @@ int main(int argc, char *argv[])
 	 		cout << endl << "INVALID TILE" << endl << endl;
 		}
 		
+		//Deallocation of puzzle boards from the potentialMoves map
 		for(it = moves.begin(); it != moves.end(); ++it) {
 			delete it->second;
 		}
 	}
 		
+	//Once the puzzle board is solved, the user wins
 	cout << b << endl;
 	cout << "YOU WIN!" << endl;
 	
+	//Deallocation of the manhattan heuristic
 	delete mh;
 
   return 0;
