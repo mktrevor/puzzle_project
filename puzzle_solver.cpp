@@ -48,7 +48,7 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 			for(int i = solution.size() - 1; i >= 0; i--) {
 				cout << solution[i] << " ";
 			}
-			cout << endl << endl;
+			cout << endl;
 			
 			break;
 		}

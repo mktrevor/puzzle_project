@@ -43,19 +43,20 @@ int main(int argc, char *argv[])
   	if(cin.fail()) {
   		cin.clear();
   		cin.ignore(1000, '\n');
-  		cout << "INVALID INPUT" << endl << endl;
+  		cout << endl << "INVALID INPUT" << endl << endl;
   		continue;
   	}
   	
   	if(input < -1 || input == 0) {
-  		cout << "INVALID INPUT" << endl << endl;
+  		cout << endl << "INVALID INPUT" << endl << endl;
   		continue;
   	}
   	
   	if(input == -1) {
   		PuzzleSolver *solver = new PuzzleSolver(b);
+  		cout << endl;
   		solver->run(mh);
-  		cout << "Expansions: " << solver->getNumExpansions() << endl;
+  		cout << "(Expansions: " << solver->getNumExpansions() << ")" << endl << endl;
   		delete solver;
   		continue;
   	}
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
 	 		cout << endl;
 	 	}
 	 	else {
-	 		cout << "INVALID TILE" << endl << endl;
+	 		cout << endl << "INVALID TILE" << endl << endl;
 		}
 		
 		for(it = moves.begin(); it != moves.end(); ++it) {
