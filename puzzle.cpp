@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	if(argc < 3){
+	if(argc < 4){
   	cerr << "Usage: ./puzzle size initMoves seed" << endl;
   	return 1;
   }
@@ -43,11 +43,6 @@ int main(int argc, char *argv[])
   	if(cin.fail()) {
   		cin.clear();
   		cin.ignore(1000, '\n');
-  		cout << endl << "INVALID INPUT" << endl << endl;
-  		continue;
-  	}
-  	
-  	if(input < -1 || input == 0) {
   		cout << endl << "INVALID INPUT" << endl << endl;
   		continue;
   	}
