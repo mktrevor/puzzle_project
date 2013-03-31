@@ -10,3 +10,9 @@ The grader should use the following procedure to compile and run the code:
 make
 ./puzzle size initMoves seed
 ```
+
+### Doxygen Compile & Run Instructions
+```shell
+doxygen -g config.txt
+doxygen config.txt
+```
