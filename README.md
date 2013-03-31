@@ -11,7 +11,7 @@ make
 ./puzzle size initMoves seed
 ```
 
-### Doxygen Compile & Run Instructions
+### Doxygen Compile Instructions
 ```shell
 doxygen -g config.txt
 doxygen config.txt
