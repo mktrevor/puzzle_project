@@ -10,13 +10,19 @@
 #include <QGraphicsItemAnimation>
 #include <QPushButton>
 #include <QLineEdit>
-#include <QHBoxLayout>
-#include <QFormLayout>
+#include <QMenu>
+#include <QMenuBar>
+#include <QAction>
+#include <QApplication>
+#include <QToolBar>
+#include <QRadioButton>
+#include <QDockWidget>
 
+#include "inputwidget.h"
+#include "graphicswindow.h"
 #include "guitile.h"
 
-class MainWindow : public QWidget {
-    Q_OBJECT
+class MainWindow : public QMainWindow {
     
 public:
     explicit MainWindow();
@@ -25,26 +31,34 @@ public:
     void show();
     
 private:
-    QGraphicsScene *scene;
-    QGraphicsView *view;
-    QLineEdit *line1;
-    QLineEdit *line2;
-    QLineEdit *line3;
-    QLineEdit *puzzleSize;
-    QLineEdit *seedNumber;
-    QLineEdit *initialMoves;
-    QVBoxLayout *inputLayout;
+		//Menu Bar components
+    QMenuBar *mb;
+    QMenu *file;
+    QMenu *colorScheme;
+    QAction *start;
+    QAction *quit;
+    
+    //Tool bar components
+    QToolBar *toolBar;
+    QRadioButton *manhattan;
+    QRadioButton *outOfPlace;
+    
+    //Left dock widget components
+    QDockWidget *inputs;
+    InputWidget *inputWidget;
+    
+    /*QVBoxLayout *inputLayout;
     QWidget *userInput;
     QFormLayout *textInput;
     QPushButton *startButton;
-    QPushButton *quitButton;
+    QPushButton *quitButton;*/
+    
     //QTimer *timer;
     //QPushButton *button;
 
 public slots:
-    //void handleTimer();
-    //void buttonPress();
+    void start();
 
 };
 
-#endif // MAINWINDOW_H
+#endif MAINWINDOW_H

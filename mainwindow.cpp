@@ -1,53 +1,58 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow() {
-
-    scene = new QGraphicsScene();
-    view = new QGraphicsView( scene );
+		
+		//MENU BAR
+		mb = menuBar();
+		file = new QMenu("File");
+		colorScheme = new QMenu("Color Scheme");
     
-    userInput = new QWidget(view);
-    inputLayout = new QVBoxLayout(userInput);
-    textInput = new QFormLayout();
+    quit = new QAction("Quit", file);
+    start = new QAction("Start", file);
     
-    line1 = new QLineEdit("Size (9 or 16):");
-    line1->setReadOnly(true);
-    line2 = new QLineEdit("Seed Number:");
-    line2->setReadOnly(true);
-    line3 = new QLineEdit("Initial Moves:");
-    line3->setReadOnly(true);
-    puzzleSize = new QLineEdit();
-    seedNumber = new QLineEdit();
-    initialMoves = new QLineEdit();
-    startButton = new QPushButton("Start");
-    quitButton = new QPushButton("Quit");
+    file->addAction(start);
+    file->addAction(quit);
+       
+    connect(quit, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(start, SIGNAL(triggered()), this, SLOT(start()));
     
-    textInput->addRow(line1, puzzleSize);
-    textInput->addRow(line2, seedNumber);
-    textInput->addRow(line3, initialMoves);
+    mb->addMenu(file);
+    mb->addSeparator();
+    mb->addMenu(colorScheme);
     
-    inputLayout->addLayout(textInput);
-    inputLayout->addWidget(startButton);
-    inputLayout->addWidget(quitButton);
+    //TOOL BAR
+    toolBar = new QToolBar();
+    manhattan = new QRadioButton("Manhattan Heuristic");
+    outOfPlace = new QRadioButton("Out of Place Heuristic");
+    toolBar->addWidget(manhattan);
+    toolBar->addWidget(outOfPlace);
+    addToolBar(toolBar);
     
-    //userInput->setLayout(inputLayout);
+    //LEFT DOCK WIDGET
+    inputs = new QDockWidget();
+    inputWidget = new InputWidget();
+    inputs->setWidget(inputWidget);
+    addDockWidget(Qt::LeftDockWidgetArea, inputs);
+    
+    //gameBoard = new GraphicsWindow();
+    //setCentralWidget(gameBoard);
+    
+    
 }
 
 MainWindow::~MainWindow() {
-	delete line1;
-	delete line2;
-	delete line3;
-	delete puzzleSize;
-	delete seedNumber;
-	delete initialMoves;
-	delete textInput;
-	delete startButton;
-	delete quitButton;
-	delete inputLayout;
-	delete userInput;
-	delete scene;
-	delete view;
+	delete start;
+	delete quit;
+	delete file;
+	delete colorScheme;
+	delete mb;
+	
+	delete manhattan;
+	delete outOfPlace;
+	delete toolBar;
+	//delete gameBoard;
 }
 
 void MainWindow::show() {
-	view->show();
+	QMainWindow::show();
 }
