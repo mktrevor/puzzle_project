@@ -11,14 +11,17 @@ class InputWidget : public QWidget {
 
 	private:
     QFormLayout *inputLayout;
+    QIntValidator *numbersOnly;
     QLineEdit *puzzleSize;
     QLineEdit *seedNumber;
     QLineEdit *initialMoves;
-    QIntValidator *numbersOnly;
    
-	public:
+  public:
 		InputWidget();
 		~InputWidget();
+		QLineEdit* getSize();
+		QLineEdit* getSeed();
+		QLineEdit* getInitMoves();
 };
 
-#endif INPUTWIDGET_H
+#endif

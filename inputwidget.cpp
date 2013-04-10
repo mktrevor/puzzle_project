@@ -24,3 +24,15 @@ InputWidget::~InputWidget() {
 	delete initialMoves;
 	delete inputLayout;
 }
+
+QLineEdit* InputWidget::getSize() {
+	return puzzleSize;
+}
+
+QLineEdit* InputWidget::getSeed() {
+	return seedNumber;
+}
+		
+QLineEdit* InputWidget::getInitMoves() {
+	return initialMoves;
+}

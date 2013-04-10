@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow() {
+
+		error = new QErrorMessage;
 		
 		//MENU BAR
 		mb = menuBar();
@@ -14,7 +16,7 @@ MainWindow::MainWindow() {
     file->addAction(quit);
        
     connect(quit, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(start, SIGNAL(triggered()), this, SLOT(start()));
+    connect(start, SIGNAL(triggered()), this, SLOT(pressStart()));
     
     mb->addMenu(file);
     mb->addSeparator();
@@ -33,26 +35,42 @@ MainWindow::MainWindow() {
     inputWidget = new InputWidget();
     inputs->setWidget(inputWidget);
     addDockWidget(Qt::LeftDockWidgetArea, inputs);
-    
-    //gameBoard = new GraphicsWindow();
-    //setCentralWidget(gameBoard);
-    
-    
+      
+    //GAME BOARD
+    gameBoard = new GraphicsWindow(3);
+    setCentralWidget(gameBoard);
+
 }
 
 MainWindow::~MainWindow() {
+	delete error;
+
+	//Deallocation of menu bar
 	delete start;
 	delete quit;
 	delete file;
 	delete colorScheme;
 	delete mb;
 	
+	//Deallocation of tool bar
 	delete manhattan;
 	delete outOfPlace;
 	delete toolBar;
-	//delete gameBoard;
+	
+	//Deallocation of left dock widget
+	delete inputWidget;
+	delete inputs;
+	
+	//Deallocation of game board
+	delete gameBoard;
 }
 
 void MainWindow::show() {
 	QMainWindow::show();
+}
+
+void MainWindow::pressStart() {
+	if(inputWidget->getSize()->text().isEmpty() || inputWidget->getSeed()->text().isEmpty() || inputWidget->getInitMoves()->text().isEmpty()) {
+		error->showMessage("Please fill in the inputs before running.");
+	}
 }
