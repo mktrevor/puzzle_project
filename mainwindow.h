@@ -18,6 +18,7 @@
 #include <QRadioButton>
 #include <QDockWidget>
 #include <QErrorMessage>
+#include <cmath>
 
 #include "inputwidget.h"
 #include "graphicswindow.h"
@@ -39,6 +40,10 @@ class MainWindow : public QMainWindow {
 		QMenu *colorScheme;
 		QAction *start;
 		QAction *quit;
+		QAction *trojans;
+		QAction *USA;
+		QAction *blackAndWhite;
+		QAction *forest;
 		
 		//Tool bar components
 		QToolBar *toolBar;
@@ -59,6 +64,11 @@ class MainWindow : public QMainWindow {
 
 	public slots:
 		void pressStart();
+		
+		void trojansColor();
+		void USAColor();
+		void blackAndWhiteColor();
+		void forestColor();
 
 };
 

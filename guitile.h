@@ -17,7 +17,9 @@ class GUITile : public QGraphicsRectItem {
 		GUITile(GraphicsWindow *g, int val, qreal xPos, qreal yPos, qreal w, qreal h);
 		~GUITile();
 		
+		void setColor(QColor color);
 		void setTextColor(QColor color);
+		void setBorderColor(QColor color);
 	
 	public slots:
 		void mousePressEvent(QGraphicsSceneMouseEvent *e);
