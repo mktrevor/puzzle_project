@@ -8,7 +8,7 @@
 The grader should use the following procedure to compile and run the code:
 ```shell
 make
-./puzzle size initMoves seed
+./puzzle_trevorar
 ```
 
 ### Doxygen Compile Instructions
