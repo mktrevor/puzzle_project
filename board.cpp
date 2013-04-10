@@ -168,7 +168,7 @@ void Board::move(int tile) {
 map<int, Board*> Board::potentialMoves() {
 	map<int, Board*> moves;
 	int dim = static_cast<int>(sqrt(size_)); // Dimension of board
-	int blankLoc; // Location of the blank tile
+	int blankLoc = 0; // Location of the blank tile
 	
 	for(int i = 0; i < size_; i++) { // This loop finds the blank tile and stores its location
 		if(tiles_[i] == 0) {
