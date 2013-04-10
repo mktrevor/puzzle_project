@@ -9,10 +9,14 @@ InputWidget::InputWidget() {
   initialMoves = new QLineEdit();
   initialMoves->setValidator(numbersOnly);
   
+  startButton = new QPushButton("Start Game");
+  quitButton = new QPushButton("Quit");
+  
   inputLayout = new QFormLayout();
   inputLayout->addRow("Size (9 or 16)", puzzleSize);
   inputLayout->addRow("Initial Moves", initialMoves);
   inputLayout->addRow("Seed Number", seedNumber);
+  inputLayout->addRow(startButton, quitButton);
 
 	setLayout(inputLayout);
 }
@@ -22,6 +26,8 @@ InputWidget::~InputWidget() {
 	delete puzzleSize;
 	delete seedNumber;
 	delete initialMoves;
+	delete startButton;
+	delete quitButton;
 	delete inputLayout;
 }
 
@@ -35,4 +41,12 @@ QLineEdit* InputWidget::getSeed() {
 		
 QLineEdit* InputWidget::getInitMoves() {
 	return initialMoves;
+}
+
+QPushButton* InputWidget::getStartButton() {
+	return startButton;
+}
+
+QPushButton* InputWidget::getQuitButton() {
+	return quitButton;
 }

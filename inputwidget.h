@@ -5,6 +5,7 @@
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QIntValidator>
+#include <QPushButton>
 
 class InputWidget : public QWidget {
 	Q_OBJECT
@@ -15,6 +16,8 @@ class InputWidget : public QWidget {
     QLineEdit *puzzleSize;
     QLineEdit *seedNumber;
     QLineEdit *initialMoves;
+    QPushButton *startButton;
+    QPushButton *quitButton;
    
   public:
 		InputWidget();
@@ -22,6 +25,8 @@ class InputWidget : public QWidget {
 		QLineEdit* getSize();
 		QLineEdit* getSeed();
 		QLineEdit* getInitMoves();
+		QPushButton* getStartButton();
+		QPushButton* getQuitButton();
 };
 
 #endif

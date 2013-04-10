@@ -9,7 +9,7 @@ MainWindow::MainWindow() {
 		colorScheme = new QMenu("Color Scheme");
     
     quit = new QAction("Quit", file);
-    start = new QAction("Start", file);
+    start = new QAction("Start Game", file);
     
     file->addAction(start);
     file->addAction(quit);
@@ -53,6 +53,9 @@ MainWindow::MainWindow() {
     inputs->setWidget(inputWidget);
     addDockWidget(Qt::LeftDockWidgetArea, inputs);
     inputs->setMaximumSize(200, 500);
+    
+    connect(inputWidget->getQuitButton(), SIGNAL(clicked()), qApp, SLOT(quit()));
+    connect(inputWidget->getStartButton(), SIGNAL(clicked()), this, SLOT(pressStart()));
       
     //GAME BOARD
     gameBoard = new GraphicsWindow(3);
