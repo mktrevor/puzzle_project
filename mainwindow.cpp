@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow() {
-
 		error = new QErrorMessage;
 		
 		//MENU BAR
@@ -22,15 +21,18 @@ MainWindow::MainWindow() {
     USA = new QAction("AMERICA", colorScheme);
     blackAndWhite = new QAction("Black and White", colorScheme);
     forest = new QAction("Forest", colorScheme);
+    whiteAndBlack = new QAction("White and Black", colorScheme);
     
     colorScheme->addAction(trojans);
     colorScheme->addAction(USA);
-    colorScheme->addAction(blackAndWhite);
     colorScheme->addAction(forest);
+    colorScheme->addAction(blackAndWhite);
+    colorScheme->addAction(whiteAndBlack);
     
     connect(trojans, SIGNAL(triggered()), this, SLOT(trojansColor()));
     connect(USA, SIGNAL(triggered()), this, SLOT(USAColor()));
     connect(blackAndWhite, SIGNAL(triggered()), this, SLOT(blackAndWhiteColor()));
+    connect(whiteAndBlack, SIGNAL(triggered()), this, SLOT(whiteAndBlackColor()));
     connect(forest, SIGNAL(triggered()), this, SLOT(forestColor()));
     
     mb->addMenu(file);
@@ -53,7 +55,7 @@ MainWindow::MainWindow() {
     inputs->setMaximumSize(200, 500);
       
     //GAME BOARD
-    gameBoard = new GraphicsWindow(4);
+    gameBoard = new GraphicsWindow(3);
     setCentralWidget(gameBoard->getView());
 		
 		this->setMinimumSize(800, 500);
@@ -66,6 +68,10 @@ MainWindow::~MainWindow() {
 	delete start;
 	delete quit;
 	delete file;
+	delete trojans;
+	delete USA;
+	delete blackAndWhite;
+	delete forest;
 	delete colorScheme;
 	delete mb;
 	
@@ -93,7 +99,7 @@ void MainWindow::pressStart() {
 	}
 	int size = inputWidget->getSize()->text().toInt();
 	int seed = inputWidget->getSeed()->text().toInt();
-	int moves = inputWidget->getInitMoves()->text().toInt();
+	int initMoves = inputWidget->getInitMoves()->text().toInt();
 	
 	if(size != 9 && size != 16) {
 		error->showMessage("Size must be 9 or 16.");
@@ -107,7 +113,7 @@ void MainWindow::pressStart() {
 		return;
 	}
 	
-	if(moves < 0) {
+	if(initMoves < 0) {
 		error->showMessage("Invalid initial moves.");
 		inputWidget->getInitMoves()->clear();
 		return;
@@ -117,7 +123,22 @@ void MainWindow::pressStart() {
 	
 	int rowSize = sqrt(size);
 	gameBoard = new GraphicsWindow(rowSize);
-	setCentralWidget(gameBoard->getView());
+	setCentralWidget(gameBoard->getView());	
+		
+	srand(seed);
+	
+	int moves = 0;
+	
+	gameBoard->movable = true;
+	
+	while(moves < initMoves) {
+		int num = rand() % size;
+		if(gameBoard->moveTile(gameBoard->tileAt(num))) {
+			moves++;
+		}
+	}
+		
+	gameBoard->started = true;
 }
 
 void MainWindow::trojansColor() {
@@ -129,9 +150,13 @@ void MainWindow::USAColor() {
 }
 
 void MainWindow::blackAndWhiteColor() {
-	gameBoard->recolor(Qt::white, Qt::black, Qt::black, Qt::black);
+	gameBoard->recolor(Qt::black, Qt::white, Qt::white, Qt::white);
 }
 
 void MainWindow::forestColor() {
 	gameBoard->recolor(Qt::darkGreen, Qt::green, Qt::green, Qt::darkYellow);
+}
+
+void MainWindow::whiteAndBlackColor() {
+	gameBoard->recolor(Qt::white, Qt::black, Qt::black, Qt::black);
 }

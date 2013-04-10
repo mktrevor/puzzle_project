@@ -37,3 +37,7 @@ void GUITile::setBorderColor(QColor color) {
 void GUITile::mousePressEvent(QGraphicsSceneMouseEvent *e) {
 	gw->moveTile(this);
 }
+
+int GUITile::getVal() {
+	return value;
+}

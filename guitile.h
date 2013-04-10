@@ -20,6 +20,8 @@ class GUITile : public QGraphicsRectItem {
 		void setColor(QColor color);
 		void setTextColor(QColor color);
 		void setBorderColor(QColor color);
+		
+		int getVal();
 	
 	public slots:
 		void mousePressEvent(QGraphicsSceneMouseEvent *e);

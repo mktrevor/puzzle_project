@@ -19,6 +19,7 @@
 #include <QDockWidget>
 #include <QErrorMessage>
 #include <cmath>
+#include <cstdlib>
 
 #include "inputwidget.h"
 #include "graphicswindow.h"
@@ -33,7 +34,7 @@ class MainWindow : public QMainWindow {
 
 		void show();
   
-	private:
+	private:	
 		//Menu Bar components
 		QMenuBar *mb;
 		QMenu *file;
@@ -44,6 +45,7 @@ class MainWindow : public QMainWindow {
 		QAction *USA;
 		QAction *blackAndWhite;
 		QAction *forest;
+		QAction *whiteAndBlack;
 		
 		//Tool bar components
 		QToolBar *toolBar;
@@ -69,7 +71,7 @@ class MainWindow : public QMainWindow {
 		void USAColor();
 		void blackAndWhiteColor();
 		void forestColor();
-
+		void whiteAndBlackColor();
 };
 
 #endif
