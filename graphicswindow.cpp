@@ -1,4 +1,5 @@
 #include "graphicswindow.h"
+#include <iostream>
 
 using namespace std;
 
@@ -63,17 +64,26 @@ bool GraphicsWindow::moveTile(GUITile* tile) {
 	int blankX = blankTile->x();
 	int blankY = blankTile->y();
 	
-	int xDif = x - blankX;
-	int yDif = y - blankY;
+	int xDif = blankX - x;
+	int yDif = blankY - y;
 	
 	if((xDif == 100 && yDif == 0) || (xDif == -100 && yDif == 0) || (xDif == 0 && yDif == 100) || (xDif == 0 && yDif == -100)) {
-		blankTile->setPos(x, y);
-		tile->setPos(blankX, blankY);
-		
-		if(mixed && solved()) {
-			winner->showMessage("YOU WIN! Please start a new game or press quit and return to reality.");
-			mixed = false;
-			frozen = true;
+		if(!mixed) {
+			blankTile->setPos(x, y);
+			tile->setPos(blankX, blankY);
+		} else {
+			tile->getDest()->setX(blankX);
+			tile->getDest()->setY(blankY);
+			tile->setXVel(xDif/100);
+			tile->setYVel(yDif/100);
+			tile->getTimer()->start();
+			blankTile->setPos(x, y);
+			
+			if(solved(tile)) {
+				winner->showMessage("YOU WIN! Please start a new game or press quit and return to reality.");
+				mixed = false;
+				frozen = true;
+			}
 		}
 		return 1;
 	}	
@@ -98,6 +108,19 @@ void GraphicsWindow::recolor(QColor color1, QColor color2, QColor color3, QColor
 		tiles[i]->setColor(color1);
 		tiles[i]->setBorderColor(color4);
 	}
+}
+
+bool GraphicsWindow::solved(GUITile *tile) {
+	int index = 0;
+	for(int i = 0; i < dimension; i++) {
+  	for(int j = 0; j < dimension; j++) {
+  		if(tiles[index] != tile && (tiles[index]->x() != 100 * j || tiles[index]->y() != 100 * i)) {
+  			return 0;
+  		}
+  		index++;
+  	}
+  }
+  return 1;
 }
 
 bool GraphicsWindow::solved() {

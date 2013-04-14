@@ -5,7 +5,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
-#include <QTimer>
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
 #include <QErrorMessage>
@@ -30,6 +29,7 @@ public:
     
     void recolor(QColor color1, QColor color2, QColor color3, QColor color4);
     
+    bool solved(GUITile *tile);
     bool solved();
     
     void setMixed(bool x);
@@ -49,10 +49,6 @@ private:
     
     QGraphicsScene *scene;
     QGraphicsView *view;
-
-public slots:
-    //void handleTimer();
-    //void buttonPress();
 };
 
 #endif

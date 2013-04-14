@@ -13,6 +13,12 @@ GUITile::GUITile(GraphicsWindow *g, int val, int xPos, int yPos, int w, int h) :
 		number->setFont(font);
 	}
 	setPos(xPos, yPos);
+	
+	destination = new QPoint;
+	
+	timer = new QTimer;
+	timer->setInterval(1);
+	connect(timer, SIGNAL(timeout()), this, SLOT(move()));
 }
 
 GUITile::~GUITile() {
@@ -40,4 +46,28 @@ void GUITile::mousePressEvent(QGraphicsSceneMouseEvent *e) {
 
 int GUITile::getVal() {
 	return value;
+}
+
+void GUITile::setXVel(int x) {
+	xVel = x;
+}
+
+void GUITile::setYVel(int y) {
+	yVel = y;
+}
+
+void GUITile::move() {
+	setPos(x() + xVel, y() + yVel);
+	
+	if(x() == destination->x() && y() == destination->y()) {
+		timer->stop();
+	}
+}
+
+QPoint* GUITile::getDest() {
+	return destination;
+}
+
+QTimer* GUITile::getTimer() {
+	return timer;
 }

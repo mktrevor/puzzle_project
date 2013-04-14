@@ -4,14 +4,23 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
 #include <QString>
+#include <QTimer>
 
 class GraphicsWindow;
 
-class GUITile : public QGraphicsRectItem {
+class GUITile : public QObject, public QGraphicsRectItem {
+	Q_OBJECT
+
 	private:
 		QGraphicsSimpleTextItem *number;
 		GraphicsWindow *gw;
 		int value;
+		
+		QPoint *destination;
+		QTimer *timer;
+		
+		int xVel;
+		int yVel;
 		
 	public:
 		GUITile(GraphicsWindow *g, int val, int xPos, int yPos, int w, int h);
@@ -22,10 +31,16 @@ class GUITile : public QGraphicsRectItem {
 		void setBorderColor(QColor color);
 		
 		int getVal();
+		
+		QPoint* getDest();
+		QTimer* getTimer();
+		
+		void setXVel(int x);
+		void setYVel(int y);
 	
 	public slots:
 		void mousePressEvent(QGraphicsSceneMouseEvent *e);
-		
+		void move();
 };
 
 #endif

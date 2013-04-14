@@ -158,6 +158,9 @@ void MainWindow::pressStart() {
 		return;
 	}
 	
+	cheatMoves->clear();
+	textBox->clear();
+	
 	delete gameBoard;
 	
 	int rowSize = sqrt(size);
