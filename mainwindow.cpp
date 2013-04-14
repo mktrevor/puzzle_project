@@ -70,7 +70,7 @@ MainWindow::MainWindow() {
     textBox->setReadOnly(true);
     outputs->setWidget(textBox);
     addDockWidget(Qt::BottomDockWidgetArea, outputs);
-    outputs->setMaximumSize(750, 120);
+    outputs->setMaximumSize(750, 80);
     outputs->setFeatures(0x00);
     
     //Right DOCK WIDGET
