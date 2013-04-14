@@ -15,10 +15,7 @@
 class GraphicsWindow : public QWidget {
     Q_OBJECT
     
-public:
-		bool started;
-		bool movable;
-		
+public:		
     GraphicsWindow(int dim);
     ~GraphicsWindow();
     
@@ -29,10 +26,13 @@ public:
     void show();
     
     GUITile* tileAt(int loc);
+    int getDim();
     
     void recolor(QColor color1, QColor color2, QColor color3, QColor color4);
     
     bool solved();
+    
+    void setMixed(bool x);
     
 private:
     GUITile *tiles[16];
@@ -41,14 +41,12 @@ private:
     
     int dimension;
     
+    bool mixed;
+    
     QErrorMessage *winner;
     
     QGraphicsScene *scene;
     QGraphicsView *view;
-
-    
-    //QTimer *timer;
-    //QPushButton *button;
 
 public slots:
     //void handleTimer();

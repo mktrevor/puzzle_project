@@ -1,13 +1,11 @@
 #include "graphicswindow.h"
-#include <iostream>
+
 using namespace std;
 
 GraphicsWindow::GraphicsWindow(int dim) {
-	started = false;
-	movable = false;
 	winner = new QErrorMessage();
   scene = new QGraphicsScene();
-  scene->setSceneRect(0, 0, 100 * dim, 100 * dim);
+  //scene->setSceneRect(0, 0, 100 * dim, 100 * dim);
   view = new QGraphicsView( scene );
   dimension = dim;
       
@@ -16,8 +14,9 @@ GraphicsWindow::GraphicsWindow(int dim) {
   	for(int j = 0; j < dim; j++) {
   		tiles[nextValue] = new GUITile(this, nextValue, 100*j, 100*i, 100, 100);
   		if(nextValue != 0) {
-  			tiles[nextValue]->setColor(Qt::white);
-  			tiles[nextValue]->setTextColor(Qt::black);
+  			tiles[nextValue]->setColor(Qt::black);
+  			tiles[nextValue]->setTextColor(Qt::white);
+  			tiles[nextValue]->setBorderColor(Qt::white);
   		}
   		scene->addItem(tiles[nextValue]);
   		nextValue++;
@@ -44,15 +43,15 @@ GUITile* GraphicsWindow::tileAt(int loc) {
 	return tiles[loc];
 }
 
+int GraphicsWindow::getDim() {
+	return dimension;
+}
+
 QGraphicsView* GraphicsWindow::getView() {
 	return view;
 }
 
 bool GraphicsWindow::moveTile(GUITile* tile) {
-	if(!movable) {
-		return 0;
-	}
-
 	int x = tile->x();
 	int y = tile->y();
 	int blankX = blankTile->x();
@@ -65,13 +64,17 @@ bool GraphicsWindow::moveTile(GUITile* tile) {
 		blankTile->setPos(x, y);
 		tile->setPos(blankX, blankY);
 		
-		if(started && solved()) {
-			winner->showMessage("WINNER!");
-			movable = false;
+		if(mixed && solved()) {
+			winner->showMessage("YOU WIN! Please start a new game or press quit and return to reality.");
+			mixed = false;
 		}
 		return 1;
 	}	
 	return 0;
+}
+
+void GraphicsWindow::setMixed(bool x) {
+	mixed = x;
 }
 
 void GraphicsWindow::recolor(QColor color1, QColor color2, QColor color3, QColor color4) {

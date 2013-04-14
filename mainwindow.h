@@ -21,6 +21,9 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "board.h"
+#include "puzzle_heur.h"
+#include "puzzle_solver.h"
 #include "inputwidget.h"
 #include "graphicswindow.h"
 #include "guitile.h"
@@ -59,13 +62,20 @@ class MainWindow : public QMainWindow {
 		//Central widget components
 		GraphicsWindow *gameBoard;
 		
-		
+		//Message for errors, etc.
 		QErrorMessage *error;
+		
 		//QTimer *timer;
-		//QPushButton *button;
+		
+		QPushButton *cheatButton;
+		Board *b;
+		PuzzleHeuristic *heuristic;
+		PuzzleSolver *solver;
 
 	public slots:
 		void pressStart();
+		
+		void cheat();
 		
 		void trojansColor();
 		void USAColor();

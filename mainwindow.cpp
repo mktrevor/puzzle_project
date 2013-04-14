@@ -43,9 +43,15 @@ MainWindow::MainWindow() {
     toolBar = new QToolBar();
     manhattan = new QRadioButton("Manhattan Heuristic");
     outOfPlace = new QRadioButton("Out of Place Heuristic");
+    cheatButton = new QPushButton("Cheat!");
     toolBar->addWidget(manhattan);
+    toolBar->addSeparator();
     toolBar->addWidget(outOfPlace);
+    toolBar->addSeparator();
+    toolBar->addWidget(cheatButton);
     addToolBar(toolBar);
+    
+    connect(cheatButton, SIGNAL(clicked()), this, SLOT(cheat()));
     
     //LEFT DOCK WIDGET
     inputs = new QDockWidget();
@@ -53,13 +59,14 @@ MainWindow::MainWindow() {
     inputs->setWidget(inputWidget);
     addDockWidget(Qt::LeftDockWidgetArea, inputs);
     inputs->setMaximumSize(200, 500);
+    inputs->setFeatures(0x00);
     
     connect(inputWidget->getQuitButton(), SIGNAL(clicked()), qApp, SLOT(quit()));
     connect(inputWidget->getStartButton(), SIGNAL(clicked()), this, SLOT(pressStart()));
       
     //GAME BOARD
     gameBoard = new GraphicsWindow(3);
-    setCentralWidget(gameBoard->getView());
+    //setCentralWidget(gameBoard->getView());
 		
 		this->setMinimumSize(800, 500);
 }
@@ -81,6 +88,7 @@ MainWindow::~MainWindow() {
 	//Deallocation of tool bar
 	delete manhattan;
 	delete outOfPlace;
+	delete cheatButton;
 	delete toolBar;
 	
 	//Deallocation of left dock widget
@@ -126,13 +134,12 @@ void MainWindow::pressStart() {
 	
 	int rowSize = sqrt(size);
 	gameBoard = new GraphicsWindow(rowSize);
+	
 	setCentralWidget(gameBoard->getView());	
 		
 	srand(seed);
 	
 	int moves = 0;
-	
-	gameBoard->movable = true;
 	
 	while(moves < initMoves) {
 		int num = rand() % size;
@@ -140,8 +147,7 @@ void MainWindow::pressStart() {
 			moves++;
 		}
 	}
-		
-	gameBoard->started = true;
+	gameBoard->setMixed(true);
 }
 
 void MainWindow::trojansColor() {
@@ -162,4 +168,50 @@ void MainWindow::forestColor() {
 
 void MainWindow::whiteAndBlackColor() {
 	gameBoard->recolor(Qt::white, Qt::black, Qt::black, Qt::black);
+}
+
+void MainWindow::cheat() {
+	if(!manhattan->isChecked() && !outOfPlace->isChecked()) {
+		error->showMessage("Please choose a heuristic before attempting to cheat.");
+		return;
+	}
+	
+	if(gameBoard->solved()) {
+		error->showMessage("Please start a new game before attempting to cheat.");
+		return;
+	}
+	
+	int dimension = gameBoard->getDim();
+	int currentSize = dimension * dimension;
+	int currentTiles[currentSize];
+	GUITile *tile;
+	
+	for(int i = 0; i < dimension; i++) {
+		for(int j = 0; j < dimension; j++) {
+			for(int k = 0; k < currentSize; k++) {
+				tile = gameBoard->tileAt(k);
+				if(tile->x() == i * 100 && tile->y() == j * 100) {
+					currentTiles[dimension * j + i] = tile->getVal();
+					break;
+				}
+			}
+		}
+	}
+	
+	b = new Board(currentTiles, currentSize);
+	
+	solver = new PuzzleSolver(*b);
+	
+	if(manhattan->isChecked()) {
+		heuristic = new ManhattanHeuristic;
+	}
+	else {
+		heuristic = new OutOfPlaceHeuristic;
+	}
+	
+	solver->run(heuristic);
+	
+	delete solver;
+	delete heuristic;
+	delete b;
 }
