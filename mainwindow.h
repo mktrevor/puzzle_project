@@ -10,6 +10,7 @@
 #include <QGraphicsItemAnimation>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QPlainTextEdit>
 #include <QMenu>
 #include <QMenuBar>
 #include <QAction>
@@ -18,12 +19,14 @@
 #include <QRadioButton>
 #include <QDockWidget>
 #include <QErrorMessage>
+#include <QListView>
 #include <cmath>
 #include <cstdlib>
 
 #include "board.h"
 #include "puzzle_heur.h"
 #include "puzzle_solver.h"
+#include "mylist.h"
 #include "inputwidget.h"
 #include "graphicswindow.h"
 #include "guitile.h"
@@ -55,7 +58,7 @@ class MainWindow : public QMainWindow {
 		QRadioButton *manhattan;
 		QRadioButton *outOfPlace;
 		
-		//Left dock widget components
+		//Left dock widget components - Text boxes and buttons to start a new puzzle
 		QDockWidget *inputs;
 		InputWidget *inputWidget;
 		
@@ -64,6 +67,14 @@ class MainWindow : public QMainWindow {
 		
 		//Message for errors, etc.
 		QErrorMessage *error;
+		
+		//Bottom dock widget components - Text box to display A* results
+		QDockWidget *outputs;
+		QPlainTextEdit *textBox;
+		
+		//Bottom dock widget components - Text box to display A* results
+		QDockWidget *cheater;
+		QListView *cheatMoves;
 		
 		//QTimer *timer;
 		

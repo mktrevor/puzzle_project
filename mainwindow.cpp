@@ -63,12 +63,28 @@ MainWindow::MainWindow() {
     
     connect(inputWidget->getQuitButton(), SIGNAL(clicked()), qApp, SLOT(quit()));
     connect(inputWidget->getStartButton(), SIGNAL(clicked()), this, SLOT(pressStart()));
-      
+    
+    //BOTTOM DOCK WIDGET
+    outputs = new QDockWidget();
+    textBox = new QPlainTextEdit();
+    textBox->setReadOnly(true);
+    outputs->setWidget(textBox);
+    addDockWidget(Qt::BottomDockWidgetArea, outputs);
+    outputs->setMaximumSize(750, 120);
+    outputs->setFeatures(0x00);
+    
+    //Right DOCK WIDGET
+    cheater = new QDockWidget();
+    cheatMoves = new QListView();
+    cheater->setWidget(cheatMoves);
+    addDockWidget(Qt::RightDockWidgetArea, cheater);
+    cheater->setMaximumSize(200, 500);
+    cheater->setFeatures(0x00);
+    
     //GAME BOARD
     gameBoard = new GraphicsWindow(3);
-    //setCentralWidget(gameBoard->getView());
 		
-		this->setMinimumSize(800, 500);
+		this->setMinimumSize(1000, 700);
 }
 
 MainWindow::~MainWindow() {
@@ -95,6 +111,10 @@ MainWindow::~MainWindow() {
 	delete inputWidget;
 	delete inputs;
 	
+	//Deallocation of bottom dock widget
+	delete textBox;
+	delete outputs;
+	
 	//Deallocation of game board
 	delete gameBoard;
 }
@@ -106,6 +126,8 @@ void MainWindow::show() {
 void MainWindow::pressStart() {
 	if(inputWidget->getSize()->text().isEmpty() || inputWidget->getSeed()->text().isEmpty() || inputWidget->getInitMoves()->text().isEmpty()) {
 		error->showMessage("Please fill in the inputs before running.");
+		textBox->clear();
+		textBox->insertPlainText("ERROR: Please fill in the inputs before running.");
 		return;
 	}
 	int size = inputWidget->getSize()->text().toInt();
@@ -114,18 +136,24 @@ void MainWindow::pressStart() {
 	
 	if(size != 9 && size != 16) {
 		error->showMessage("Size must be 9 or 16.");
+		textBox->clear();
+		textBox->insertPlainText("ERROR: Size must be 9 or 16.");
 		inputWidget->getSize()->clear();
 		return;
 	}
 	
 	if(seed < 1) {
 		error->showMessage("Invalid seed number.");
+		textBox->clear();
+		textBox->insertPlainText("ERROR: Invalid seed number.");
 		inputWidget->getSeed()->clear();
 		return;
 	}
 	
 	if(initMoves < 0) {
 		error->showMessage("Invalid initial moves.");
+		textBox->clear();
+		textBox->insertPlainText("ERROR: Invalid initial moves.");
 		inputWidget->getInitMoves()->clear();
 		return;
 	}
@@ -173,11 +201,15 @@ void MainWindow::whiteAndBlackColor() {
 void MainWindow::cheat() {
 	if(!manhattan->isChecked() && !outOfPlace->isChecked()) {
 		error->showMessage("Please choose a heuristic before attempting to cheat.");
+		textBox->clear();
+		textBox->insertPlainText("ERROR: Please choose a heuristic before attempting to cheat.");
 		return;
 	}
 	
 	if(gameBoard->solved()) {
 		error->showMessage("Please start a new game before attempting to cheat.");
+		textBox->clear();
+		textBox->insertPlainText("ERROR: Please start a new game before attempting to cheat.");
 		return;
 	}
 	
@@ -211,7 +243,18 @@ void MainWindow::cheat() {
 	
 	solver->run(heuristic);
 	
+	textBox->clear();
+
+	textBox->insertPlainText("Try these moves: ");
+	
+	for(int i = solver->getSolution()->size() - 1; i >= 0; i--) {
+		textBox->insertPlainText(QString::number(solver->getSolution()->at(i)));
+		textBox->insertPlainText("  ");
+	}
+	
+	textBox->appendPlainText("(Expansions: " + QString::number(solver->getNumExpansions()) + ")");
+	
+	delete b;
 	delete solver;
 	delete heuristic;
-	delete b;
 }

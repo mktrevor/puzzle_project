@@ -13,10 +13,13 @@ using namespace std;
 PuzzleSolver::PuzzleSolver(const Board &b) {
 	b_ = b;
 	expansions_ = 0;
+	solution = new MyList<int>;
 }
 
 /** Destructor */
-PuzzleSolver::~PuzzleSolver() { }
+PuzzleSolver::~PuzzleSolver() {
+	delete solution;
+}
 
 /** A method to find the optimal solution for a puzzle board.
 	@pre Board is unsolved
@@ -51,15 +54,16 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 		if(myMove->b_->solved()) {
 			PuzzleMove *temp = myMove;
 			while(temp->prev_ != NULL) {
-				solution.push_back(temp->tileMove_);
+				solution->push_back(temp->tileMove_);
 				temp = temp->prev_;
 			}
-
-			cout << "Try this combination: ";
+			
+			//Uncomment these lines if you would like to print out the solution to the terminal
+			/*cout << "Try this combination: ";
 			for(int i = solution.size() - 1; i >= 0; i--) {
 				cout << solution[i] << " ";
 			}
-			cout << endl;
+			cout << endl;*/
 
 			break;
 		}
@@ -106,4 +110,8 @@ int PuzzleSolver::run(PuzzleHeuristic *ph) {
 int PuzzleSolver::getNumExpansions()
 {
   return expansions_;
+}
+
+MyList<int>* PuzzleSolver::getSolution() {
+	return solution;
 }

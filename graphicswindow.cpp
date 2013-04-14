@@ -24,6 +24,7 @@ GraphicsWindow::GraphicsWindow(int dim) {
   }
   
   blankTile = tiles[0];
+  mixed = false;
 }
 
 GraphicsWindow::~GraphicsWindow() {

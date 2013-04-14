@@ -31,8 +31,8 @@ class PuzzleSolver
   //  the number of moves in the solution
   int run(PuzzleHeuristic *ph);
 
-  //**** Return the solution List
- 
+  // Return the solution List
+ 	MyList<int>* getSolution();
 
   // Return how many expansions were performed in the search
   int getNumExpansions();
@@ -43,7 +43,7 @@ class PuzzleSolver
   ///Number of expansions needed to find optimal solution
   int expansions_;
   ///List to store sequence of solution tiles
-  MyList<int> solution;
+  MyList<int>* solution;
 };
 
 #endif
