@@ -19,7 +19,7 @@
 #include <QRadioButton>
 #include <QDockWidget>
 #include <QErrorMessage>
-#include <QListView>
+#include <QListWidget>
 #include <cmath>
 #include <cstdlib>
 
@@ -74,7 +74,7 @@ class MainWindow : public QMainWindow {
 		
 		//Bottom dock widget components - Text box to display A* results
 		QDockWidget *cheater;
-		QListView *cheatMoves;
+		QListWidget *cheatMoves;
 		
 		//QTimer *timer;
 		

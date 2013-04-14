@@ -75,7 +75,7 @@ MainWindow::MainWindow() {
     
     //Right DOCK WIDGET
     cheater = new QDockWidget();
-    cheatMoves = new QListView();
+    cheatMoves = new QListWidget();
     cheater->setWidget(cheatMoves);
     addDockWidget(Qt::RightDockWidgetArea, cheater);
     cheater->setMaximumSize(200, 500);
@@ -164,6 +164,8 @@ void MainWindow::pressStart() {
 	gameBoard = new GraphicsWindow(rowSize);
 	
 	setCentralWidget(gameBoard->getView());	
+	
+	gameBoard->setFrozen(false);
 		
 	srand(seed);
 	
@@ -244,15 +246,17 @@ void MainWindow::cheat() {
 	solver->run(heuristic);
 	
 	textBox->clear();
-
-	textBox->insertPlainText("Try these moves: ");
 	
-	for(int i = solver->getSolution()->size() - 1; i >= 0; i--) {
-		textBox->insertPlainText(QString::number(solver->getSolution()->at(i)));
-		textBox->insertPlainText("  ");
+	if(solver->getSolution()->size() == 0) {
+		textBox->insertPlainText("Puzzle is already solved!");
 	}
-	
-	textBox->appendPlainText("(Expansions: " + QString::number(solver->getNumExpansions()) + ")");
+	else {
+		cheatMoves->clear();
+		for(int i = 0; i < solver->getSolution()->size(); i++) {	
+			cheatMoves->insertItem(0, QString::number(solver->getSolution()->at(i)));
+		}
+		cheatMoves->insertItem(0, "Try these moves: ");
+	}
 	
 	delete b;
 	delete solver;

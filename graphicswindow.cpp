@@ -5,7 +5,6 @@ using namespace std;
 GraphicsWindow::GraphicsWindow(int dim) {
 	winner = new QErrorMessage();
   scene = new QGraphicsScene();
-  //scene->setSceneRect(0, 0, 100 * dim, 100 * dim);
   view = new QGraphicsView( scene );
   dimension = dim;
       
@@ -24,7 +23,9 @@ GraphicsWindow::GraphicsWindow(int dim) {
   }
   
   blankTile = tiles[0];
+  
   mixed = false;
+  frozen = true;
 }
 
 GraphicsWindow::~GraphicsWindow() {
@@ -53,6 +54,10 @@ QGraphicsView* GraphicsWindow::getView() {
 }
 
 bool GraphicsWindow::moveTile(GUITile* tile) {
+	if(frozen) {
+		return 0;
+	}
+
 	int x = tile->x();
 	int y = tile->y();
 	int blankX = blankTile->x();
@@ -68,6 +73,7 @@ bool GraphicsWindow::moveTile(GUITile* tile) {
 		if(mixed && solved()) {
 			winner->showMessage("YOU WIN! Please start a new game or press quit and return to reality.");
 			mixed = false;
+			frozen = true;
 		}
 		return 1;
 	}	
@@ -76,6 +82,10 @@ bool GraphicsWindow::moveTile(GUITile* tile) {
 
 void GraphicsWindow::setMixed(bool x) {
 	mixed = x;
+}
+
+void GraphicsWindow::setFrozen(bool x) {
+	frozen = x;
 }
 
 void GraphicsWindow::recolor(QColor color1, QColor color2, QColor color3, QColor color4) {

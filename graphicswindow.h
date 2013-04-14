@@ -33,6 +33,7 @@ public:
     bool solved();
     
     void setMixed(bool x);
+    void setFrozen(bool x);
     
 private:
     GUITile *tiles[16];
@@ -42,6 +43,7 @@ private:
     int dimension;
     
     bool mixed;
+    bool frozen;
     
     QErrorMessage *winner;
     

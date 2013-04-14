@@ -14,7 +14,7 @@ class GUITile : public QGraphicsRectItem {
 		int value;
 		
 	public:
-		GUITile(GraphicsWindow *g, int val, qreal xPos, qreal yPos, qreal w, qreal h);
+		GUITile(GraphicsWindow *g, int val, int xPos, int yPos, int w, int h);
 		~GUITile();
 		
 		void setColor(QColor color);

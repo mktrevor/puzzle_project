@@ -1,7 +1,7 @@
 #include "guitile.h"
 #include "graphicswindow.h"
 
-GUITile::GUITile(GraphicsWindow *g, int val, qreal xPos, qreal yPos, qreal w, qreal h) : QGraphicsRectItem(0, 0, w, h) {
+GUITile::GUITile(GraphicsWindow *g, int val, int xPos, int yPos, int w, int h) : QGraphicsRectItem(0, 0, w, h) {
 	QFont font("Arial", 65);
 	
 	gw = g;
