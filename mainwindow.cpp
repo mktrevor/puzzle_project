@@ -304,6 +304,7 @@ void MainWindow::cheat() {
 	delete heuristic;
 }
 
+/** Changes color of board depending on the input number */
 void MainWindow::colorChange(int x) {
 	switch(x) {
 		case 0: blackAndWhiteColor();
