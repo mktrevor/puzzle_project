@@ -6,6 +6,7 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
+#include <QGraphicsSceneMouseEvent>
 #include <QString>
 #include <QTimer>
 

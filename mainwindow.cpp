@@ -184,6 +184,13 @@ void MainWindow::pressStart() {
 	//Clear out text boxes
 	cheatMoves->clear();
 	textBox->clear();
+	colorChoices->clear();
+	
+	colorChoices->addItem("Black and White (default)");
+  colorChoices->addItem("Cardinal and Gold");
+  colorChoices->addItem("USA");
+  colorChoices->addItem("White and Black");
+  colorChoices->addItem("Forest");
 	
 	//Delete old gameboard
 	delete gameBoard;

@@ -63,6 +63,7 @@ void GUITile::setBorderColor(QColor color) {
 	
 /** Method to call moveTile function when tile is clicked */
 void GUITile::mousePressEvent(QGraphicsSceneMouseEvent *e) {
+	e->button();
 	gw->moveTile(this);
 }
 
