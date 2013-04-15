@@ -24,6 +24,8 @@
 #include <QDockWidget>
 #include <QErrorMessage>
 #include <QListWidget>
+#include <QComboBox>
+#include <QLabel>
 #include <cmath>
 #include <cstdlib>
 
@@ -61,6 +63,9 @@ class MainWindow : public QMainWindow {
 		QToolBar *toolBar;
 		QRadioButton *manhattan;
 		QRadioButton *outOfPlace;
+		QPushButton *cheatButton;
+		QComboBox *colorChoices;
+		QLabel *colorLabel;
 		
 		//Left dock widget components - Text boxes and buttons to start a new puzzle
 		QDockWidget *inputs;
@@ -81,7 +86,6 @@ class MainWindow : public QMainWindow {
 		QListWidget *cheatMoves;
 		
 		//Cheat implementation components
-		QPushButton *cheatButton;
 		Board *b;
 		PuzzleHeuristic *heuristic;
 		PuzzleSolver *solver;
@@ -99,6 +103,7 @@ class MainWindow : public QMainWindow {
 		void blackAndWhiteColor();
 		void forestColor();
 		void whiteAndBlackColor();
+		void colorChange(int x);
 };
 
 #endif

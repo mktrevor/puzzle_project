@@ -45,11 +45,24 @@ MainWindow::MainWindow() {
     manhattan = new QRadioButton("Manhattan Heuristic");
     outOfPlace = new QRadioButton("Out of Place Heuristic");
     cheatButton = new QPushButton("Cheat!");
+    colorChoices = new QComboBox();
+    colorLabel = new QLabel("Color Scheme: ");
+    
+    colorChoices->addItem("Black and White (default)");
+    colorChoices->addItem("Cardinal and Gold");
+    colorChoices->addItem("USA");
+    colorChoices->addItem("White and Black");
+    colorChoices->addItem("Forest");
+    connect(colorChoices, SIGNAL(currentIndexChanged(int)), this, SLOT(colorChange(int)));
+    
     toolBar->addWidget(manhattan);
     toolBar->addSeparator();
     toolBar->addWidget(outOfPlace);
     toolBar->addSeparator();
     toolBar->addWidget(cheatButton);
+    toolBar->addSeparator();
+    toolBar->addWidget(colorLabel);
+    toolBar->addWidget(colorChoices);
     addToolBar(toolBar);
     
     connect(cheatButton, SIGNAL(clicked()), this, SLOT(cheat()));
@@ -71,7 +84,7 @@ MainWindow::MainWindow() {
     textBox->setReadOnly(true);
     outputs->setWidget(textBox);
     addDockWidget(Qt::BottomDockWidgetArea, outputs);
-    outputs->setMaximumSize(750, 80);
+    outputs->setMaximumSize(800, 80);
     outputs->setFeatures(0x00);
     
     //Right DOCK WIDGET
@@ -79,7 +92,7 @@ MainWindow::MainWindow() {
     cheatMoves = new QListWidget();
     cheater->setWidget(cheatMoves);
     addDockWidget(Qt::RightDockWidgetArea, cheater);
-    cheater->setMaximumSize(200, 500);
+    cheater->setMaximumSize(200, 600);
     cheater->setFeatures(0x00);
     
     //GAME BOARD
@@ -107,6 +120,8 @@ MainWindow::~MainWindow() {
 	delete manhattan;
 	delete outOfPlace;
 	delete cheatButton;
+	delete colorChoices;
+	delete colorLabel;
 	delete toolBar;
 	
 	//Deallocation of left dock widget
@@ -288,3 +303,22 @@ void MainWindow::cheat() {
 	delete solver;
 	delete heuristic;
 }
+
+void MainWindow::colorChange(int x) {
+	switch(x) {
+		case 0: blackAndWhiteColor();
+		break;
+		
+		case 1: trojansColor();
+		break;
+		
+		case 2: USAColor();
+		break;
+		
+		case 3: whiteAndBlackColor();
+		break;
+		
+		case 4: forestColor();
+		break;
+	}
+}		
