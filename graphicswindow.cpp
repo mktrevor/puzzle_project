@@ -77,7 +77,14 @@ QGraphicsView* GraphicsWindow::getView() {
 bool GraphicsWindow::moveTile(GUITile* tile) {
 	//If board is frozen, no moves are allowed
 	if(frozen) {
-		winner->showMessage("Please start a new game");
+		winner->showMessage("Please start a new game.");
+		return 0;
+	}
+	
+	if(mixed && solved()) {
+		winner->showMessage("Whoops, you already won! I must have missed it because of your lightning fast clicking skills! You may now start a new game or quit.");
+		mixed = false;
+		frozen = true;
 		return 0;
 	}
 
