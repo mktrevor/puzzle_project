@@ -1,3 +1,7 @@
+/** A MainWindow class to hold the game board, menus, and text boxes of a sliding tile puzzle
+
+	@author Trevor Reed
+*/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -68,26 +72,28 @@ class MainWindow : public QMainWindow {
 		//Message for errors, etc.
 		QErrorMessage *error;
 		
-		//Bottom dock widget components - Text box to display A* results
+		//Bottom dock widget components - Text box to display errors
 		QDockWidget *outputs;
 		QPlainTextEdit *textBox;
 		
-		//Bottom dock widget components - Text box to display A* results
+		//Right dock widget components - Text box to display A* results
 		QDockWidget *cheater;
 		QListWidget *cheatMoves;
 		
-		//QTimer *timer;
-		
+		//Cheat implementation components
 		QPushButton *cheatButton;
 		Board *b;
 		PuzzleHeuristic *heuristic;
 		PuzzleSolver *solver;
 
 	public slots:
+		//Starts a new puzzle
 		void pressStart();
 		
+		//Runs the A* algorithm
 		void cheat();
 		
+		//Methods to change the color of the puzzle
 		void trojansColor();
 		void USAColor();
 		void blackAndWhiteColor();

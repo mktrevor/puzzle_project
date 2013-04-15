@@ -23,6 +23,8 @@ GUITile::GUITile(GraphicsWindow *g, int val, int xPos, int yPos, int w, int h) :
 
 GUITile::~GUITile() {
 	delete number;
+	delete destination;
+	delete timer;
 }
 
 void GUITile::setColor(QColor color) {

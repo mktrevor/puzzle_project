@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+/** Default constructor for MainWindow */
 MainWindow::MainWindow() {
 		error = new QErrorMessage;
 		
@@ -87,6 +88,7 @@ MainWindow::MainWindow() {
 		this->setMinimumSize(1000, 700);
 }
 
+/** Deconstructor - deallocates all memory from the MainWindow */
 MainWindow::~MainWindow() {
 	delete error;
 
@@ -115,14 +117,20 @@ MainWindow::~MainWindow() {
 	delete textBox;
 	delete outputs;
 	
+	//Deallocation of right dock widget
+	delete cheatMoves;
+	delete cheater;
+	
 	//Deallocation of game board
 	delete gameBoard;
 }
 
+/** Displays the MainWindow */
 void MainWindow::show() {
 	QMainWindow::show();
 }
 
+/** Creates a new board when the start button is pressed if all fields are properly filled */
 void MainWindow::pressStart() {
 	if(inputWidget->getSize()->text().isEmpty() || inputWidget->getSeed()->text().isEmpty() || inputWidget->getInitMoves()->text().isEmpty()) {
 		error->showMessage("Please fill in the inputs before running.");
@@ -158,9 +166,11 @@ void MainWindow::pressStart() {
 		return;
 	}
 	
+	//Clear out text boxes
 	cheatMoves->clear();
 	textBox->clear();
 	
+	//Delete old gameboard
 	delete gameBoard;
 	
 	int rowSize = sqrt(size);
@@ -168,12 +178,14 @@ void MainWindow::pressStart() {
 	
 	setCentralWidget(gameBoard->getView());	
 	
+	//Unfreeze the board so the tiles can be moved
 	gameBoard->setFrozen(false);
 		
 	srand(seed);
 	
 	int moves = 0;
 	
+	//Scramble the board according to the user input
 	while(moves < initMoves) {
 		int num = rand() % size;
 		if(gameBoard->moveTile(gameBoard->tileAt(num))) {
@@ -183,26 +195,32 @@ void MainWindow::pressStart() {
 	gameBoard->setMixed(true);
 }
 
+/** Recolor the tiles */
 void MainWindow::trojansColor() {
 	gameBoard->recolor(Qt::red, Qt::yellow, Qt::yellow, Qt::yellow);
 }
 
+/** Recolor the tiles */
 void MainWindow::USAColor() {
 	gameBoard->recolor(Qt::white, Qt::red, Qt::blue, Qt::red);
 }
 
+/** Recolor the tiles */
 void MainWindow::blackAndWhiteColor() {
 	gameBoard->recolor(Qt::black, Qt::white, Qt::white, Qt::white);
 }
 
+/** Recolor the tiles */
 void MainWindow::forestColor() {
 	gameBoard->recolor(Qt::darkGreen, Qt::green, Qt::green, Qt::darkYellow);
 }
 
+/** Recolor the tiles */
 void MainWindow::whiteAndBlackColor() {
 	gameBoard->recolor(Qt::white, Qt::black, Qt::black, Qt::black);
 }
 
+/** Method to run the A* algorithm when the cheat button is pressed */
 void MainWindow::cheat() {
 	if(!manhattan->isChecked() && !outOfPlace->isChecked()) {
 		error->showMessage("Please choose a heuristic before attempting to cheat.");
@@ -218,11 +236,13 @@ void MainWindow::cheat() {
 		return;
 	}
 	
+	//Create an array to hold the tile values	
 	int dimension = gameBoard->getDim();
 	int currentSize = dimension * dimension;
 	int currentTiles[currentSize];
 	GUITile *tile;
 	
+	//Fill in the array with the tile values in their current positions
 	for(int i = 0; i < dimension; i++) {
 		for(int j = 0; j < dimension; j++) {
 			for(int k = 0; k < currentSize; k++) {
@@ -235,6 +255,7 @@ void MainWindow::cheat() {
 		}
 	}
 	
+	//Create a new board with the current tile positions
 	b = new Board(currentTiles, currentSize);
 	
 	solver = new PuzzleSolver(*b);
@@ -248,6 +269,7 @@ void MainWindow::cheat() {
 	
 	solver->run(heuristic);
 	
+	//Print out the results of the A* algorithm
 	textBox->clear();
 	
 	if(solver->getSolution()->size() == 0) {
@@ -261,6 +283,7 @@ void MainWindow::cheat() {
 		cheatMoves->insertItem(0, "Try these moves: ");
 	}
 	
+	//Deallocate the board solving objects
 	delete b;
 	delete solver;
 	delete heuristic;

@@ -1,3 +1,7 @@
+/** A QWidget to hold the puzzle tiles and handle their movement
+
+	@author Trevor Reed
+*/
 #ifndef GRAPHICSWINDOW_H
 #define GRAPHICSWINDOW_H
 
@@ -38,14 +42,14 @@ public:
 private:
     GUITile *tiles[16];
     
-    GUITile *blankTile;
+    GUITile *blankTile; //Pointer to the blank tile
     
     int dimension;
     
-    bool mixed;
-    bool frozen;
+    bool mixed; //Whether or not the board has been mixed up
+    bool frozen; //Whether or not the board tiles are movable
     
-    QErrorMessage *winner;
+    QErrorMessage *winner; //Message box to display a winning message
     
     QGraphicsScene *scene;
     QGraphicsView *view;
