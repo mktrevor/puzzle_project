@@ -1,3 +1,6 @@
+/** A class to represent tiles in the sliding tile puzzle
+	@author Trevor Reed
+*/
 #ifndef GUITILE_H
 #define GUITILE_H
 
@@ -16,6 +19,7 @@ class GUITile : public QObject, public QGraphicsRectItem {
 		GraphicsWindow *gw;
 		int value;
 		
+		//A point of destination and a timer for the tile animation
 		QPoint *destination;
 		QTimer *timer;
 		

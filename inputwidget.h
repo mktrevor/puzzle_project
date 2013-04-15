@@ -1,3 +1,6 @@
+/** A class to hold all of the inputs for creating a new sliding tile puzzle
+	@author Trevor Reed
+*/
 #ifndef INPUTWIDGET_H
 #define INPUTWIDGET_H
 
